@@ -1,0 +1,1 @@
+document.write("<h1>앙기모<h1>");
