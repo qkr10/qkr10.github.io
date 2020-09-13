@@ -159,14 +159,15 @@ function OnKeyPress(event){
     let character = String.fromCharCode(event.keyCode);
     let key = event.witch || event.keyCode;
 
+    if (time[0] == 0){
+        time[0] = (new Date()).getTime()/1000;
+    }
     if (key == 13){ //enter
-        time[0] = time[1];
         time[1] = (new Date()).getTime()/1000;
-        if (time[0] != 0){
-            let t = "시간 : " + (time[1] - time[0]).toFixed(3);
-            t += " 분당 글자 : " + (strList[strNum].length / (time[1] - time[0]) * 60).toFixed(3);
-            TimeShow(t);
-        }
+        let t = "시간 : " + (time[1] - time[0]).toFixed(3);
+        t += " 분당 글자 : " + (strList[strNum].length / (time[1] - time[0]) * 60).toFixed(3);
+        TimeShow(t);
+
         strNum++;
         NextText();
         return;
@@ -185,27 +186,43 @@ function OnKeyPress(event){
         character = character.toUpperCase();
     }
 
-    if (key == 32){ //space
-        character = '\u00a0'
+    let list = [{
+        32 : '\u00a0',
+        188 : '\u002c',
+        190 : '\u002e',
+        186 : '\u003b',
+        122 : '\u003b'},
+    {   32 : '\u00a0',
+        188 : '<',
+        190 : '>',
+        186 : ':',
+        122 : '"'
+    }];
+    if ('A'.charAt(0) > key || key > 'Z'.charAt(0)) {
+        character = list[event.shiftKey ? 1 : 0][key];
     }
-    if (key == 188){ //,
-        character = '\u002c';
-    }
-    if (key == 190){ //.
-        character = '\u002e';
-    }
-    if (key == 186){ //;
-        character = '\u003b';
-    }
-    if (key == 186 && event.shiftKey){ //:
-        character = '\u003a';
-    }
-    if (key == 222){ //'
-        character = '\u0027';
-    }
-    if (key == 222 && event.shiftKey){ //"
-        character = '\u0022';
-    }
+
+    // if (key == 32){ //space
+    //     character = '\u00a0'
+    // }
+    // if (key == 188){ //,
+    //     character = '\u002c';
+    // }
+    // if (key == 190){ //.
+    //     character = '\u002e';
+    // }
+    // if (key == 186){ //;
+    //     character = '\u003b';
+    // }
+    // if (key == 186 && event.shiftKey){ //:
+    //     character = '\u003a';
+    // }
+    // if (key == 222){ //'
+    //     character = '\u0027';
+    // }
+    // if (key == 222 && event.shiftKey){ //"
+    //     character = '\u0022';
+    // }
 
     strText += character;
     InputShow(strText);
@@ -239,5 +256,4 @@ function setLyricNum(n){
     strText = "";
     InputShow(strText);
 }
-
 NextText();
