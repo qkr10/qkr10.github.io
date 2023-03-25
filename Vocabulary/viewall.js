@@ -1,5 +1,11 @@
 const href = window.location.href;
+const currentURL = href.substring(0, href.lastIndexOf("/")) + "/viewall.html";
 const fetchURL = href.substring(0, href.lastIndexOf("/")) + "/vocabulary.csv";
+
+function search() {
+    const lineNumber = document.searchForm.line.value;
+    window.location.href = currentURL + "#wordDiv" + lineNumber;
+}
 
 /*
  * 단어, "뜻" -> {index:줄수, word:단어, meaning:뜻}
