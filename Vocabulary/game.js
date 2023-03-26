@@ -87,7 +87,7 @@ function printScore(histories) {
         historyDiv.id = "history" + index;
 
         const historyContexts = [
-            { class: `num`, html: `<br/>단어 번호 : ${history.num} <a href="${viewallURL + '#' + history.num}">단어장에서 보기</a>` },
+            { class: `num`, html: `<br/>단어 번호 : ${history.num} <a href="${viewallURL + '#wordDiv' + history.num}">단어장에서 보기</a>` },
             { class: `question`, html: `문제 : ${history.question}` },
             { class: `correctAnswer`, html: `정답 : ${history.correctAnswer}` },
             { class: `answer`, html: `입력한 답 : ${history.answer}` }
