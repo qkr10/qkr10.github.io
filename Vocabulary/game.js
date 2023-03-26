@@ -237,3 +237,44 @@ function onLoad() {
 }
 
 window.onload = onLoad;
+
+function printCorrectNums() {
+    const histories = getStatus().histories;
+    const result = histories.reduce((prev, cur) => {
+        if (cur.score == 1) {
+            if (prev != "") prev += ",";
+            return prev + cur.num;
+        }
+        else {
+            return prev;
+        }
+    }, "");
+    document.getElementById("nums").textContent = result;
+}
+
+function printWrongNums() {
+    const histories = getStatus().histories;
+    const result = histories.reduce((prev, cur) => {
+        if (cur.score == 0) {
+            if (prev != "") prev += ",";
+            return prev + cur.num;
+        }
+        else {
+            return prev;
+        }
+    }, "");
+    document.getElementById("nums").textContent = result;
+}
+
+function excludeNums() {
+    const nums = document.getElementById("nums").textContent.split(",").map(i => parseInt(i));
+    const status = getStatus();
+    const tuples = [];
+    status.tuples.forEach(tuple => {
+        if (!nums.includes(tuple.index)) {
+            tuples.push(tuple);
+        }
+    });
+    status.tuples = tuples;
+    setStatus(status);
+}
