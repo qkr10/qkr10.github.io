@@ -115,23 +115,18 @@ function printScore(histories) {
 function getQuestion(histories, words) {
     const wordsCount = words.length;
     const historiesCount = histories.length;
-    const questionsCount = wordsCount * 2 - historiesCount;
-    if (questionsCount == 0)
+    const questionsCount = wordsCount * 2;
+    const remainQuestionsCount = questionsCount - historiesCount;
+    if (remainQuestionsCount == 0) {
         return { question: "", correctAnswer: "", num: 0 };
+    }
 
-    let randomIndex = Math.floor(Math.random() * questionsCount);
+    let randomIndex = Math.floor(Math.random() * remainQuestionsCount);
 
-    for (let i = 0; i < questionsCount; i++) {
+    let i;
+    for (i = 0; i < questionsCount; i++) {
         const word = words[parseInt(i / 2)];
         const isEng2Kor = i % 2;
-        let j
-        for (j = 0; j < historiesCount; j++) {
-            const history = histories[j];
-            if (word.index == history.num)
-                if (isEng2Kor == history.eng2kor)
-                    break;
-        }
-
         if (randomIndex == 0) {
             return {
                 question: isEng2Kor ? word.word : word.meaning,
@@ -139,7 +134,18 @@ function getQuestion(histories, words) {
                 num: word.index
             };
         }
-        if (j == historiesCount) randomIndex--;
+
+        let j;
+        for (j = 0; j < historiesCount; j++) {
+            const history = histories[j];
+            if (word.index == history.num)
+                if (isEng2Kor == history.eng2kor) {
+                    break;
+                }
+        }
+        if (j == historiesCount) {
+            randomIndex--;
+        }
     }
 
     return { question: "", correctAnswer: "", num: 0 };
