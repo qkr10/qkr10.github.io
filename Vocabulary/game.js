@@ -177,12 +177,18 @@ function printQuestion(question) {
 
 let gameStatus = {};
 function getStatus() {
-    gameStatus.answer = document.getElementById("answer-input").value;
+    const answerInput = document.getElementById("answer-input");
+    if (answerInput) {
+        gameStatus.answer = answerInput.value;
+    }
     return gameStatus;
 }
 function setStatus(status) {
     gameStatus = status;
-    document.getElementById("answer-input").value = gameStatus.answer;
+    const answerInput = document.getElementById("answer-input");
+    if (answerInput) {
+        answerInput.value = gameStatus.answer;
+    }
 }
 
 function onSubmit() {
