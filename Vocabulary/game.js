@@ -266,10 +266,12 @@ function printWrongNums() {
 }
 
 function excludeNums() {
-    const nums = document.getElementById("nums").value.split(",").map(i => parseInt(i));
-    const status = getStatus();
-    status.tuples = status.tuples.filter(tuple => !nums.includes(tuple.index));
-    setStatus(status);
+    onLoad().then(() => {
+        const nums = document.getElementById("nums").value.split(",").map(i => parseInt(i));
+        const status = getStatus();
+        status.tuples = status.tuples.filter(tuple => !nums.includes(tuple.index));
+        setStatus(status);
+    });
 }
 
 function onlyThisNums() {
