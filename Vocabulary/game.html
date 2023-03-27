@@ -10,8 +10,8 @@
 </head>
 
 <body>
-    <input type="button" value="맞춘 단어 번호 추출&복사" onclick="javascript:printCorrectNums()">
-    <input type="button" value="틀린 단어 번호 추출&복사" onclick="javascript:printWrongNums()">
+    <input type="button" value="맞춘 단어 번호 추출&복사" onclick="javascript:printAndCopyNums(1)">
+    <input type="button" value="틀린 단어 번호 추출&복사" onclick="javascript:printAndCopyNums(0)">
     <input type="button" value="다시 풀기(해당 번호 제외)" onclick="javascript:changeWordSet(0)">
     <input type="button" value="다시 풀기(해당 번호만)" onclick="javascript:changeWordSet(1)">
     <input type="button" value="다시 풀기(영어->한국어 만)" onclick="javascript:setQuestionType(1)">

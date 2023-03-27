@@ -249,26 +249,10 @@ function onLoad() {
 
 window.onload = onLoad;
 
-function printCorrectNums() {
+function printAndCopyNums(score) { //0 = wrong 1 = correct
     const histories = getStatus().histories;
     const result = histories.reduce((prev, cur) => {
-        if (cur.score == 1) {
-            if (prev != "") prev += ",";
-            return prev + cur.num;
-        }
-        else {
-            return prev;
-        }
-    }, "");
-    document.getElementById("nums").textContent = result;
-    document.getElementById("nums").select();
-    document.execCommand("copy");
-}
-
-function printWrongNums() {
-    const histories = getStatus().histories;
-    const result = histories.reduce((prev, cur) => {
-        if (cur.score == 0) {
+        if (cur.score == score) {
             if (prev != "") prev += ",";
             return prev + cur.num;
         }
