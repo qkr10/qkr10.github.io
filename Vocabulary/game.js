@@ -107,13 +107,15 @@ function printScore(histories) {
 
 /*
  * 
-    (histories, words) => {question: "", correctAnswer: "", num: 0}
+    (histories, words, questionType) => {question: "", correctAnswer: "", num: 0}
+    questionType = 0: default 1: onlyEng2Kor 2: onlyKor2Eng
  * 
  */
-function getQuestion(histories, words) {
+function getQuestion(histories, words, questionType = 0) {
     const wordsCount = words.length;
     const historiesCount = histories.length;
-    const questionsCount = wordsCount * 2;
+    const questionPerWord = [2, 1, 1][questionType];
+    const questionsCount = wordsCount * questionPerWord;
     const remainQuestionsCount = questionsCount - historiesCount;
     if (remainQuestionsCount == 0) {
         return { question: "", correctAnswer: "", num: 0 };
@@ -124,7 +126,7 @@ function getQuestion(histories, words) {
     let i;
     for (i = 0; i < questionsCount; i++) {
         const word = words[parseInt(i / 2)];
-        const isEng2Kor = i % 2;
+        const isEng2Kor = [i % 2, 1, 0][questionType];
 
         let j;
         for (j = 0; j < historiesCount; j++) {
@@ -192,7 +194,7 @@ function setStatus(status) {
 }
 
 function onSubmit() {
-    const status = getStatus(); //{histories: [], tuples: [], question: {}, answer: ""}
+    const status = getStatus(); //{histories: [], tuples: [], question: {}, answer: "", questionType: 0}
     clearBoard();
 
     if (status.answer != "") {
@@ -201,7 +203,7 @@ function onSubmit() {
     }
     printScore(status.histories ?? []);
 
-    status.question = getQuestion(status.histories, status.tuples);
+    status.question = getQuestion(status.histories, status.tuples, status.questionType);
     if (status.question.question == "") {
         document.getElementById("question").innerHTML =
             `더이상 풀 문제가 없습니다. <input type="button" value="다시풀기" onclick="javascript:restart()">`
@@ -230,6 +232,7 @@ function onLoad() {
         return {
             histories: [],
             tuples: tuples,
+            questionType: 0,
             question: {},
             answer: ""
         };
@@ -290,6 +293,13 @@ function onlyThisNums() {
     const nums = document.getElementById("nums").value.split(",").map(i => parseInt(i));
     const status = getStatus();
     status.tuples = status.tuples.filter(tuple => nums.includes(tuple.index));
+    setStatus(status);
+    restart();
+}
+
+function setQuestionType(questionType) {
+    const status = getStatus();
+    status.questionType = questionType;
     setStatus(status);
     restart();
 }
