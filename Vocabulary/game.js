@@ -271,7 +271,7 @@ window.onload = onLoad;
 function printAndCopyNums(score) { //0 = wrong 1 = correct
     const histories = getStatus().histories;
     const result = histories.reduce((prev, cur) => {
-        if (cur.score == score) {
+        if ((cur.score == 1) ^ !score) {
             if (prev != "") prev += ",";
             return prev + cur.num;
         }
