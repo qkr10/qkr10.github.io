@@ -228,7 +228,7 @@ function onLoad() {
         };
     }
 
-    fetch(fetchURL)
+    return fetch(fetchURL)
         .then(response => response.text())
         .then(text => text.split("\n"))
         .then(lines => lines.map(line2tuple))
@@ -268,15 +268,17 @@ function printWrongNums() {
 }
 
 function excludeNums() {
-    const nums = document.getElementById("nums").textContent.split(",").map(i => parseInt(i));
+    const nums = document.getElementById("nums").value.split(",").map(i => parseInt(i));
     const status = getStatus();
     status.tuples = status.tuples.filter(tuple => !nums.includes(tuple.index));
     setStatus(status);
 }
 
 function onlyThisNums() {
-    const nums = document.getElementById("nums").textContent.split(",").map(i => parseInt(i));
-    const status = getStatus();
-    status.tuples = status.tuples.filter(tuple => nums.includes(tuple.index));
-    setStatus(status);
+    onLoad().then(() => {
+        const nums = document.getElementById("nums").value.split(",").map(i => parseInt(i));
+        const status = getStatus();
+        status.tuples = status.tuples.filter(tuple => nums.includes(tuple.index));
+        setStatus(status);
+    });
 }
