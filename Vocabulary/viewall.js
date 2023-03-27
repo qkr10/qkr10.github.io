@@ -2,11 +2,6 @@ const href = window.location.href;
 const currentURL = href.substring(0, href.lastIndexOf("/")) + "/viewall.html";
 const fetchURL = href.substring(0, href.lastIndexOf("/")) + "/vocabulary.csv";
 
-function search() {
-    const lineNumber = document.searchForm.line.value;
-    window.location.href = currentURL + "#wordDiv" + lineNumber;
-}
-
 /*
  * 단어, "뜻" -> {index:줄수, word:단어, meaning:뜻}
  */
@@ -66,8 +61,23 @@ function tuple2wordDiv(tuple) {
     return resultDiv;
 }
 
-fetch(fetchURL)
-    .then(response => response.text())
-    .then(text => text.split("\n"))
-    .then(lines => lines.map(line2tuple))
-    .then(printTuples)
+function search() {
+    const lineNumber = document.searchForm.line.value;
+    window.location.href = currentURL + "#wordDiv" + lineNumber;
+}
+
+window.onload = function () {
+    function searchByUrl() {
+        const searchId = href.substring(href.lastIndexOf("#"));
+        if (searchId != "") {
+            window.location.href = currentURL + searchId;
+        }
+    }
+
+    fetch(fetchURL)
+        .then(response => response.text())
+        .then(text => text.split("\n"))
+        .then(lines => lines.map(line2tuple))
+        .then(printTuples)
+        .then(searchByUrl);
+}
