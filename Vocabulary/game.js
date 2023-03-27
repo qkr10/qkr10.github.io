@@ -108,7 +108,7 @@ function printScore(histories) {
             { class: `correctAnswer`, html: `정답 : ${history.correctAnswer}` },
             { class: `answer`, html: `입력한 답 : ${history.answer}` }
         ];
-        if (history.score == 0) {
+        if (history.score < 1) {
             historyContexts[3].html = `<del>${historyContexts[3].html}</del>`;
             historyContexts[3].html += ` <input type="text" id="reviseAnswer${index}" onchange="javascript:reviseAnswerOnChange(${index})"/>`;
         }
