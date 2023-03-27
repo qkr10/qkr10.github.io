@@ -40,7 +40,7 @@ function clearBoard() {
 /*
  * 
     ({question: "", correctAnswer: "", num: 0}, answer)
-        => {question: "", correctAnswer: "", num: 0, eng2kor: false, score: 0, answer: ""}
+        => {question: "", correctAnswer: "", num: 0, eng2kor: false, score: 0, answer: "", reviseAnswer: ""}
  * 
  */
 function makeHistory(question, answer) {
@@ -59,7 +59,28 @@ function makeHistory(question, answer) {
     question.eng2kor = eng2kor;
     question.score = score;
     question.answer = answer;
+    question.reviseAnswer = "";
     return question;
+}
+
+function reviseAnswerOnChange(historyIndex) {
+    const reviseAnswerEle = document.getElementById(`reviseAnswer${historyIndex}`);
+    const reviseAnswer = reviseAnswerEle.value.trim();
+    const history = getStatus().histories[historyIndex];
+    
+    let score = (history.correctAnswer == reviseAnswer ? 1 : 0);
+    if (eng2kor) {
+        const meaningRegex = /[가-힣\s]+/g;
+        const meanings = history.correctAnswer.match(meaningRegex).map(str => str.trim());
+        if (meanings.includes(reviseAnswer)) {
+            score = 1;
+        }
+    }
+
+    if (score == 1) {
+        getStatus().histories[historyIndex].score = 0.5;
+        reviseAnswerEle.remove();
+    }
 }
 
 /*
@@ -92,6 +113,7 @@ function printScore(histories) {
         ];
         if (history.score == 0) {
             historyContexts[3].html = `<del>${historyContexts[3].html}</del>`;
+            historyContexts[3].html += ` <input type="text" id="reviseAnswer${index}" onchange="javascript:reviseAnswerOnChange(${index})"/>`;
         }
 
         historyContexts.forEach(context => {
