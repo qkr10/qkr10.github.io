@@ -270,12 +270,13 @@ function printWrongNums() {
 function excludeNums() {
     const nums = document.getElementById("nums").textContent.split(",").map(i => parseInt(i));
     const status = getStatus();
-    const tuples = [];
-    status.tuples.forEach(tuple => {
-        if (!nums.includes(tuple.index)) {
-            tuples.push(tuple);
-        }
-    });
-    status.tuples = tuples;
+    status.tuples = status.tuples.filter(tuple => !nums.includes(tuple.index));
+    setStatus(status);
+}
+
+function onlyThisNums() {
+    const nums = document.getElementById("nums").textContent.split(",").map(i => parseInt(i));
+    const status = getStatus();
+    status.tuples = status.tuples.filter(tuple => nums.includes(tuple.index));
     setStatus(status);
 }
