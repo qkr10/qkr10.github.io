@@ -281,23 +281,15 @@ function printWrongNums() {
     document.execCommand("copy");
 }
 
-function excludeNums() {
+function changeWordSet(excludeOrInclude) { //0 = complement 1 = intersection
     const nums = document.getElementById("nums").value.split(",").map(i => parseInt(i));
     const status = getStatus();
-    status.tuples = status.tuples.filter(tuple => !nums.includes(tuple.index));
+    status.tuples = status.tuples.filter(tuple => nums.includes(tuple.index) ^ !excludeOrInclude);
     setStatus(status);
     restart();
 }
 
-function onlyThisNums() {
-    const nums = document.getElementById("nums").value.split(",").map(i => parseInt(i));
-    const status = getStatus();
-    status.tuples = status.tuples.filter(tuple => nums.includes(tuple.index));
-    setStatus(status);
-    restart();
-}
-
-function setQuestionType(questionType) {
+function setQuestionType(questionType) { //0 = default 1 = eng2kor 2 = kor2eng
     const status = getStatus();
     status.questionType = questionType;
     setStatus(status);
