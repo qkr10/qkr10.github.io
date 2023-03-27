@@ -70,7 +70,7 @@ function reviseAnswerOnChange(historyIndex) {
     const reviseAnswer = reviseAnswerEle.value.trim();
     const history = getStatus().histories[historyIndex];
 
-    const score = getScore(eng2kor, history.correctAnswer, reviseAnswer);
+    const score = getScore(history.eng2kor, history.correctAnswer, reviseAnswer);
 
     if (score == 1) {
         getStatus().histories[historyIndex].score = 0.5;
