@@ -258,6 +258,8 @@ function printCorrectNums() {
         }
     }, "");
     document.getElementById("nums").textContent = result;
+    document.getElementById("nums").select();
+    document.execCommand("copy");
 }
 
 function printWrongNums() {
@@ -272,6 +274,8 @@ function printWrongNums() {
         }
     }, "");
     document.getElementById("nums").textContent = result;
+    document.getElementById("nums").select();
+    document.execCommand("copy");
 }
 
 function excludeNums() {
