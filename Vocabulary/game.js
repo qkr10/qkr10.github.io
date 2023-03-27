@@ -29,8 +29,6 @@ function clearBoard() {
     const divLists = [
         "question",
         "answer",
-        "correct-answer",
-        "word-num",
         "score"
     ];
 
