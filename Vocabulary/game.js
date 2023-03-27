@@ -271,6 +271,7 @@ function excludeNums() {
         const status = getStatus();
         status.tuples = status.tuples.filter(tuple => !nums.includes(tuple.index));
         setStatus(status);
+        onSubmit();
     });
 }
 
@@ -280,5 +281,6 @@ function onlyThisNums() {
         const status = getStatus();
         status.tuples = status.tuples.filter(tuple => nums.includes(tuple.index));
         setStatus(status);
+        onSubmit();
     });
 }
