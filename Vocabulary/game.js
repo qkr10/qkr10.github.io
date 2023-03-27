@@ -110,7 +110,9 @@ function printScore(histories) {
         ];
         if (history.score < 1) {
             historyContexts[3].html = `<del>${historyContexts[3].html}</del>`;
-            historyContexts[3].html += ` <input type="text" id="reviseAnswer${index}" onchange="javascript:reviseAnswerOnChange(${index})"/>`;
+            if (history.score < 0.49) {
+                historyContexts[3].html += ` <input type="text" id="reviseAnswer${index}" onchange="javascript:reviseAnswerOnChange(${index})"/>`;
+            }
         }
 
         historyContexts.forEach(context => {
