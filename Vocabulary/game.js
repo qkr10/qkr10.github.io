@@ -92,9 +92,10 @@ function printScore(histories) {
     const scoreDiv = document.getElementById("score");
 
     const scoreSum = histories.reduce((prev, cur) => prev + cur.score, 0);
+    const correctAnswerCount = histories.reduce((prev, cur) => prev + (cur.score == 1 ? 1 : 0), 0);
     const scoreSumDiv = document.createElement('div');
     scoreSumDiv.id = "score-sum";
-    scoreSumDiv.innerHTML = `푼 문제 : ${histories.length}개<br/>점수 : ${scoreSum}`;
+    scoreSumDiv.innerHTML = `푼 문제 : ${histories.length}개, 맞힌 문제 : ${correctAnswerCount}개<br/>점수 : ${scoreSum}`;
     scoreDiv.appendChild(scoreSumDiv);
 
     histories.reverse().forEach((history, index) => {
