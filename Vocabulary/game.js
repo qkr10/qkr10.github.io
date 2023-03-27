@@ -37,6 +37,15 @@ function clearBoard() {
     });
 }
 
+function getScore(isEng2Kor, correctAnswer, answer) {
+    if (isEng2Kor) {
+        const meaningRegex = /[가-힣\s]+/g;
+        const meanings = correctAnswer.match(meaningRegex).map(str => str.trim());
+        return meanings.includes(answer) ? 1 : 0
+    }
+    return correctAnswer == answer ? 1 : 0;
+}
+
 /*
  * 
     ({question: "", correctAnswer: "", num: 0}, answer)
@@ -47,14 +56,7 @@ function makeHistory(question, answer) {
     const korRegex = /[가-힣\s]+/;
     const eng2kor = !korRegex.test(question.question);
 
-    let score = (question.correctAnswer == answer ? 1 : 0);
-    if (eng2kor) {
-        const meaningRegex = /[가-힣\s]+/g;
-        const meanings = question.correctAnswer.match(meaningRegex).map(str => str.trim());
-        if (meanings.includes(answer)) {
-            score = 1;
-        }
-    }
+    const score = getScore(eng2kor, question.correctAnswer, answer);
 
     question.eng2kor = eng2kor;
     question.score = score;
@@ -67,15 +69,8 @@ function reviseAnswerOnChange(historyIndex) {
     const reviseAnswerEle = document.getElementById(`reviseAnswer${historyIndex}`);
     const reviseAnswer = reviseAnswerEle.value.trim();
     const history = getStatus().histories[historyIndex];
-    
-    let score = (history.correctAnswer == reviseAnswer ? 1 : 0);
-    if (eng2kor) {
-        const meaningRegex = /[가-힣\s]+/g;
-        const meanings = history.correctAnswer.match(meaningRegex).map(str => str.trim());
-        if (meanings.includes(reviseAnswer)) {
-            score = 1;
-        }
-    }
+
+    const score = getScore(eng2kor, history.correctAnswer, reviseAnswer);
 
     if (score == 1) {
         getStatus().histories[historyIndex].score = 0.5;
