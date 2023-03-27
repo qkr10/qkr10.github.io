@@ -163,6 +163,7 @@ function printQuestion(question) {
     const answerInput = document.createElement("input");
     answerInput.id = "answer-input";
     answerInput.type = "text";
+    answerInput.autocomplete = "off";
     answerInput.onsubmit = onSubmit;
 
     const formEle = document.createElement("form");
