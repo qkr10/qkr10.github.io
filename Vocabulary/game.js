@@ -162,7 +162,7 @@ function printQuestion(question) {
     answerInput.id = "answer-input";
     answerInput.type = "text";
     answerInput.autocomplete = "off";
-    answerInput.onsubmit = onSubmit;
+    answerInput.value = "";
 
     const formEle = document.createElement("form");
     formEle.onsubmit = e => {
