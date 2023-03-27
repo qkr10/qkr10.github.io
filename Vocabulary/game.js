@@ -176,7 +176,7 @@ function printQuestion(question) {
     document.getElementById("answer-input").value = "";
 }
 
-const gameStatus = {};
+let gameStatus = {};
 function getStatus() {
     const answerInput = document.getElementById("answer-input");
     if (answerInput) {
