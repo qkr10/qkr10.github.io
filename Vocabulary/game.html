@@ -10,20 +10,20 @@
 </head>
 
 <body>
+    <input type="button" value="맞춘 문제 번호 추출하기" onclick="javascript:printCorrectNums()">
+    <input type="button" value="틀린 문제 번호 추출하기" onclick="javascript:printWrongNums()">
+    <input type="button" value="해당 번호 제외하기" onclick="javascript:excludeNums()">
+    <input type="button" value="해당 번호만 풀기" onclick="javascript:onlyThisNums()">
+    <textarea id="nums"></textarea>
+    <br/>
+    <br/>
     <div id="question"></div>
     <div id="answer">
         <form>
             <input type="text" id="answer-input">
         </form>
     </div>
-    <div id="correct-answer"></div>
-    <div id="word-num"></div>
     <div id="score"></div>
-    <input type="button" value="맞춘 문제 번호 추출하기" onclick="javascript:printCorrectNums()">
-    <input type="button" value="틀린 문제 번호 추출하기" onclick="javascript:printWrongNums()">
-    <input type="button" value="해당 번호 제외하기" onclick="javascript:excludeNums()">
-    <input type="button" value="해당 번호만 풀기" onclick="javascript:onlyThisNums()">
-    <textarea id="nums"></textarea>
 </body>
 
 </html>
