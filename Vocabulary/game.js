@@ -127,13 +127,6 @@ function getQuestion(histories, words) {
     for (i = 0; i < questionsCount; i++) {
         const word = words[parseInt(i / 2)];
         const isEng2Kor = i % 2;
-        if (randomIndex == 0) {
-            return {
-                question: isEng2Kor ? word.word : word.meaning,
-                correctAnswer: !isEng2Kor ? word.word : word.meaning,
-                num: word.index
-            };
-        }
 
         let j;
         for (j = 0; j < historiesCount; j++) {
@@ -144,6 +137,13 @@ function getQuestion(histories, words) {
                 }
         }
         if (j == historiesCount) {
+            if (randomIndex == 0) {
+                return {
+                    question: isEng2Kor ? word.word : word.meaning,
+                    correctAnswer: !isEng2Kor ? word.word : word.meaning,
+                    num: word.index
+                };
+            }
             randomIndex--;
         }
     }
