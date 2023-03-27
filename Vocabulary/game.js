@@ -180,7 +180,10 @@ function getStatus() {
     gameStatus.answer = document.getElementById("answer-input").value;
     return gameStatus;
 }
-function setStatus(status) { gameStatus = status; }
+function setStatus(status) {
+    gameStatus = status;
+    document.getElementById("answer-input").value = gameStatus.answer;
+}
 
 function onSubmit() {
     const status = getStatus(); //{histories: [], tuples: [], question: {}, answer: ""}
@@ -195,7 +198,7 @@ function onSubmit() {
     status.question = getQuestion(status.histories, status.tuples);
     if (status.question.question == "") {
         document.getElementById("question").innerHTML =
-            `더이상 풀 문제가 없습니다. <a href='${currentURL}'> 처음부터 다시하기 </a>`
+            `더이상 풀 문제가 없습니다. <input type="button" value="다시풀기" onclick="javascript:restart()">`
         return;
     }
     printQuestion(status.question.question);
@@ -266,21 +269,25 @@ function printWrongNums() {
 }
 
 function excludeNums() {
-    onLoad().then(() => {
-        const nums = document.getElementById("nums").value.split(",").map(i => parseInt(i));
-        const status = getStatus();
-        status.tuples = status.tuples.filter(tuple => !nums.includes(tuple.index));
-        setStatus(status);
-        onSubmit();
-    });
+    const nums = document.getElementById("nums").value.split(",").map(i => parseInt(i));
+    const status = getStatus();
+    status.tuples = status.tuples.filter(tuple => !nums.includes(tuple.index));
+    setStatus(status);
+    restart();
 }
 
 function onlyThisNums() {
-    onLoad().then(() => {
-        const nums = document.getElementById("nums").value.split(",").map(i => parseInt(i));
-        const status = getStatus();
-        status.tuples = status.tuples.filter(tuple => nums.includes(tuple.index));
-        setStatus(status);
-        onSubmit();
-    });
+    const nums = document.getElementById("nums").value.split(",").map(i => parseInt(i));
+    const status = getStatus();
+    status.tuples = status.tuples.filter(tuple => nums.includes(tuple.index));
+    setStatus(status);
+    restart();
+}
+
+function restart() {
+    const status = getStatus();
+    status.histories = [];
+    status.answer = "";
+    setStatus(status);
+    onSubmit();
 }
