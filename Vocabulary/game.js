@@ -198,8 +198,8 @@ function onSubmit() {
     if (status.answer != "") {
         const history = makeHistory(status.question, status.answer);
         status.histories.push(history);
-        printScore(status.histories);
     }
+    printScore(status.histories ?? []);
 
     status.question = getQuestion(status.histories, status.tuples);
     if (status.question.question == "") {
