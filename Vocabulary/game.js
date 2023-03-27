@@ -162,7 +162,6 @@ function printQuestion(question) {
     answerInput.id = "answer-input";
     answerInput.type = "text";
     answerInput.autocomplete = "off";
-    answerInput.value = "";
 
     const formEle = document.createElement("form");
     formEle.onsubmit = e => {
@@ -173,7 +172,7 @@ function printQuestion(question) {
     document.getElementById("answer").appendChild(formEle);
 
     document.getElementById("answer-input").focus();
-    document.getElementById("answer-input").value = "";
+    setTimeout(() => { document.getElementById("answer-input").value = ""; }, 1);
 }
 
 let gameStatus = {};
