@@ -7,14 +7,6 @@ function search() {
     window.location.href = currentURL + "#wordDiv" + lineNumber;
 }
 
-window.onload = function () {
-    const id = href.substring(href.lastIndexOf("#"));
-    if (id) {
-        document.searchForm.line.value = id;
-        search();
-    }
-}
-
 /*
  * 단어, "뜻" -> {index:줄수, word:단어, meaning:뜻}
  */
