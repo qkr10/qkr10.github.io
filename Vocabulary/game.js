@@ -162,7 +162,6 @@ function printQuestion(question) {
     answerInput.id = "answer-input";
     answerInput.type = "text";
     answerInput.autocomplete = "off";
-    answerInput.value = "";
     answerInput.onsubmit = onSubmit;
 
     const formEle = document.createElement("form");
@@ -174,9 +173,10 @@ function printQuestion(question) {
     document.getElementById("answer").appendChild(formEle);
 
     document.getElementById("answer-input").focus();
+    document.getElementById("answer-input").value = "";
 }
 
-let gameStatus = {};
+const gameStatus = {};
 function getStatus() {
     const answerInput = document.getElementById("answer-input");
     if (answerInput) {
