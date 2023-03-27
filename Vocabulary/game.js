@@ -75,6 +75,7 @@ function reviseAnswerOnChange(historyIndex) {
     if (score == 1) {
         getStatus().histories[historyIndex].score = 0.5;
         reviseAnswerEle.remove();
+        onSubmit();
     }
 }
 
