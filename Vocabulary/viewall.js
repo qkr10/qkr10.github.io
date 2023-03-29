@@ -68,8 +68,9 @@ function search() {
 
 window.onload = function () {
     function searchByUrl() {
-        const searchId = href.substring(href.lastIndexOf("#"));
-        if (searchId != "") {
+        const searchIdIndex = href.lastIndexOf("#");
+        if (searchIdIndex != -1) {
+            const searchId = href.substring(searchIdIndex);
             window.location.href = currentURL + searchId;
         }
     }
