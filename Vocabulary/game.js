@@ -98,7 +98,7 @@ function printScore(histories) {
     scoreSumDiv.innerHTML = `푼 문제 : ${histories.length}개, 맞힌 문제 : ${correctAnswerCount}개<br/>점수 : ${scoreSum}`;
     scoreDiv.appendChild(scoreSumDiv);
 
-    histories.reverse().forEach((history, index) => {
+    [...histories].reverse().forEach((history, index) => {
         const historyDiv = document.createElement("div");
         historyDiv.id = "history" + index;
 
