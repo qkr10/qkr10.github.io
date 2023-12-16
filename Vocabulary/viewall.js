@@ -100,33 +100,19 @@ function printTuples(tuples) {
 
 window.onload = view;
 
-function searchByUrl() {
-    const searchIdIndex = href.lastIndexOf("#");
-    if (searchIdIndex != -1) {
-        const searchId = href.substring(searchIdIndex);
-        window.location.href = currentURL + searchId;
+function view() {
+    if (href.lastIndexOf('viewMode=') == -1) {
+        viewMode = href.match(/viewMode=([a-Z])+/g)[1];
     }
-}
 
-function viewAll() {
-    fetch(fetchURL)
-        .then(response => response.text())
-        .then(text => text.split("\n"))
-        .then(lines => lines.map(line2tuple))
-        .then(printTuples)
-        .then(searchByUrl);
-}
+    function searchByUrl() {
+        const searchIdIndex = href.lastIndexOf("#");
+        if (searchIdIndex != -1) {
+            const searchId = href.substring(searchIdIndex);
+            window.location.href = currentURL + searchId;
+        }
+    }
 
-function viewMeanings() {
-    fetch(fetchURL)
-        .then(response => response.text())
-        .then(text => text.split("\n"))
-        .then(lines => lines.map(line2tuple))
-        .then(printTuples)
-        .then(searchByUrl);
-}
-
-function viewWords() {
     fetch(fetchURL)
         .then(response => response.text())
         .then(text => text.split("\n"))
