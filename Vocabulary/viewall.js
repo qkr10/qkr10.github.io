@@ -102,7 +102,7 @@ window.onload = view;
 
 function view() {
     if (href.lastIndexOf('viewMode=') != -1) {
-        viewMode = href.match(/viewMode=([a-Z])+/g)[1];
+        viewMode = href.match(/viewMode=([a-zA-Z])+/g)[1];
     }
 
     function searchByUrl() {
