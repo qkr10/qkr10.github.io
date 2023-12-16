@@ -1,7 +1,11 @@
 const href = window.location.href;
 const currentURL = href.substring(0, href.lastIndexOf("/")) + "/viewall.html";
 const fetchURL = href.substring(0, href.lastIndexOf("/")) + "/vocabulary.csv";
-let viewMode = "all";
+const isModeInURL = href.lastIndexOf('mode=') != -1;
+const mode = isModeInURL ? href.match(/mode=([a-zA-Z]+)/)[1] : 'all';
+const isLineInURL = /#wordDiv[0-9]+/.test(href);
+const lineStr = isLineInURL ? href.match(/#wordDiv[0-9]+/)[0] : -1;
+window.onload = onLoad;
 
 /*
  * 단어, "뜻" -> {index:줄수, word:단어, meaning:뜻}
@@ -19,11 +23,18 @@ function line2tuple(line, index) {
 /*
  * <div id="wordDiv줄수">
  *   <div class="number">줄수</div>
+ *   <div class="word" onclick="javascript:alert('뜻or단어');">단어or뜻</div>
+ * </div>
+ * 
+ * or
+ * 
+ * <div id="wordDiv줄수">
+ *   <div class="number">줄수</div>
  *   <div class="word">단어</div>
  *   <div class="meaning">뜻</div>
  * </div>
  */
-function tuple2wordDiv(tuple) {
+function getWordDiv(tuple) {
     const resultDiv = document.createElement("div");
     resultDiv.id = "wordDiv" + tuple.index;
 
@@ -32,36 +43,22 @@ function tuple2wordDiv(tuple) {
     numberDiv.innerText = tuple.index;
     resultDiv.appendChild(numberDiv);
 
-    const wordDiv = document.createElement("div");
-    wordDiv.classList.add("word");
-    wordDiv.innerText = tuple.word;
-    resultDiv.appendChild(wordDiv);
+    if (mode == 'all') {
+        const wordDiv = document.createElement("div");
+        wordDiv.classList.add("word");
+        wordDiv.innerText = tuple.word;
+        resultDiv.appendChild(wordDiv);
 
-    const meaningDiv = document.createElement("div");
-    meaningDiv.classList.add("meaning");
-    meaningDiv.innerText = tuple.meaning;
-    resultDiv.appendChild(meaningDiv);
+        const meaningDiv = document.createElement("div");
+        meaningDiv.classList.add("meaning");
+        meaningDiv.innerText = tuple.meaning;
+        resultDiv.appendChild(meaningDiv);
 
-    return resultDiv;
-}
-
-/*
- * <div id="wordDiv줄수">
- *   <div class="number">줄수</div>
- *   <div class="word" onclick="javascript:alert('뜻or단어');">단어or뜻</div>
- * </div>
- */
-function tuple2wordDivByViewMode(tuple) {
-    const resultDiv = document.createElement("div");
-    resultDiv.id = "wordDiv" + tuple.index;
-
-    const numberDiv = document.createElement("div");
-    numberDiv.classList.add("number");
-    numberDiv.innerText = tuple.index;
-    resultDiv.appendChild(numberDiv);
+        return resultDiv;
+    }
 
     let content = tuple.word, alertMsg = tuple.meaning;
-    if (viewMode == 'meanings') {
+    if (mode == 'meanings') {
         content = tuple.meaning; alertMsg = tuple.word;
     }
 
@@ -83,10 +80,8 @@ function printTuples(tuples) {
     const wordsDiv = document.createElement("div");
     wordsDiv.id = "wordsDiv";
 
-    let getWordDiv = viewMode == 'all' ? tuple2wordDiv : tuple2wordDivByViewMode;
-
     for (let i = 0; i < tuples.length; i++) {
-        let wordDiv = getWordDiv(tuples[i]);
+        let wordDiv = getWordDiv(tuples[i], mode);
         wordsDiv.appendChild(wordDiv);
     }
 
@@ -98,18 +93,14 @@ function printTuples(tuples) {
     document.body.appendChild(wordsDiv);
 }
 
-window.onload = view;
-
-function view() {
-    if (href.lastIndexOf('viewMode=') != -1) {
-        viewMode = href.match(/viewMode=([a-zA-Z])+/g)[1];
+function onLoad() {
+    document.getElementById("searchLine").onkeydown = (e) => {
+        if (e.key == "Enter") e.preventDefault();
     }
 
     function searchByUrl() {
-        const searchIdIndex = href.lastIndexOf("#");
-        if (searchIdIndex != -1) {
-            const searchId = href.substring(searchIdIndex);
-            window.location.href = currentURL + searchId;
+        if (isLineInURL) {
+            document.querySelector(lineStr).scrollIntoView();
         }
     }
 
@@ -122,17 +113,22 @@ function view() {
 }
 
 function search() {
-    const lineNumber = document.searchForm.line.value;
-    const lineNumberStr = "#wordDiv" + lineNumber;
-    const viewModeStr = "?viewMode=" + viewMode;
-    window.location.href = currentURL + viewModeStr + lineNumberStr;
+    const line = document.searchForm.line.value;
+    if (line) {
+        const lineStr = "#wordDiv" + line;
+        document.querySelector(lineStr).scrollIntoView();
+    }
+    else {
+        window.location.href = currentURL;
+    }
 }
 
 function changeMode(modeNum) {
-    viewMode = 'meanings';
-    if (modeNum == 1) {
-        viewMode = 'words';
+    const modeStr = "?mode=" + ['all', 'words', 'meanings'][modeNum];
+    if (!isLineInURL) {
+        window.location.href = currentURL + modeStr;
+        return;
     }
-    const viewModeStr = "?viewMode=" + viewMode;
-    window.location.href = currentURL + viewModeStr;
+
+    window.location.href = currentURL + modeStr + lineStr;
 }
