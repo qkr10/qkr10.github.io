@@ -101,7 +101,7 @@ function printTuples(tuples) {
 window.onload = view;
 
 function view() {
-    if (href.lastIndexOf('viewMode=') == -1) {
+    if (href.lastIndexOf('viewMode=') != -1) {
         viewMode = href.match(/viewMode=([a-Z])+/g)[1];
     }
 
